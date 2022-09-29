@@ -43,7 +43,7 @@ document.addEventListener(
         }else{
             if(prestart){
                 prestart = false;
-                bgmusic.play();
+                sfx_score.play();
             }else{
                 inputDown = true;
                 inputXLast = event.changedTouches[0].clientX;
@@ -114,6 +114,7 @@ const scene = new THREE.Scene();
                 bgmusic.setBuffer(buffer);
                 bgmusic.setLoop(true);
                 bgmusic.setVolume(0.4);
+                bgmusic.play();
             })
             audioLoader.load('./sfx/bounce.wav', function(buffer){
                 sfx_bounce.setBuffer(buffer);
