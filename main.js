@@ -37,11 +37,16 @@ document.addEventListener(
 document.addEventListener(
     "touchstart",
     function(event){
-        inputDown = true;
-        inputXLast = event.changedTouches[0].clientX;
-        if(!alive){
-            resetGame();
+        if(event.touches.length > 1){
+            event.preventDefault();
+        }else{
+            inputDown = true;
+            inputXLast = event.changedTouches[0].clientX;
+            if(!alive){
+                resetGame();
+            }
         }
+        
     },
     false
 )
