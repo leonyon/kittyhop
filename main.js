@@ -579,7 +579,7 @@ const scene = new THREE.Scene();
                     document.getElementById("endScore").innerHTML = "";
                     document.getElementById("restart").innerHTML = "";
                     if(inputDown){
-                        levelGroup.rotation.y += inputX * 0.005;
+                        levelGroup.rotation.y += inputX * 0.01;
                         middleCylinder.rotation.y = levelGroup.rotation.y;
                         //middleCylinderBottom.rotation.y = levelGroup.rotation.y;
                         particles_jump.rotation.y = levelGroup.rotation.y;
