@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader }  from "https://unpkg.com/three@0.145.0/examples/jsm/loaders/GLTFLoader.js";
-import Stats from "https://unpkg.com/three@0.145.0/examples/jsm/loaders/GLTFLoader.js";
+import Stats from "https://unpkg.com/three@0.145.0/examples/jsm/libs/stats.module.js";
 import { Material, Mesh, MeshBasicMaterial, MeshLambertMaterial, MixOperation, NotEqualStencilFunc, Object3D, Raycaster, Vector3 } from "three";
 
 var inputDown = false;
