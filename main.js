@@ -463,7 +463,7 @@ const scene = new THREE.Scene();
                     animAction_fallslow.stop();
                     animAction_bounce.reset();
                     animAction_bounce.play();
-                    sfx_bounce.play();
+                    if(!prestart){ sfx_bounce.play(); }
                     for(let n = 0; n < 10; n++){
                         let partJumpParent = new THREE.Object3D();
                         let geo = new THREE.SphereGeometry(Math.random() * 0.3, 15, 15);
