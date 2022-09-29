@@ -41,6 +41,7 @@ function preStartGame(){
     prestart = false;
     console.log("play clicked");
     document.getElementById("startbutton").style.display = "none";
+    bgmusic.play();
 }
 
 document.addEventListener(
