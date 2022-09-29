@@ -35,16 +35,21 @@ document.addEventListener(
     false
 );*/
 
+document.getElementById("startbutton").addEventListener("click",preStartGame);
+
+function preStartGame(){
+    prestart = false;
+    console.log("play clicked");
+    document.getElementById("startbutton").style.display = "none";
+}
+
 document.addEventListener(
     "touchstart",
     function(event){
         if(event.touches.length > 1){
             event.preventDefault();
         }else{
-            if(prestart){
-                prestart = false;
-                sfx_score.play();
-            }else{
+            if(!prestart){
                 inputDown = true;
                 inputXLast = event.changedTouches[0].clientX;
                 if(!alive){
@@ -586,10 +591,6 @@ const scene = new THREE.Scene();
                     //resetGame();
                     document.getElementById("endScore").innerHTML = "Score: " + score;
                     document.getElementById("restart").innerHTML = "Tap anywhere to restart";
-                }
-
-                if(prestart){
-                    document.getElementById("restart").innerHTML = "Tap to start";
                 }
 
                 
