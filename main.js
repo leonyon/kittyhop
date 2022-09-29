@@ -6,6 +6,7 @@ import { Material, Mesh, MeshBasicMaterial, MeshLambertMaterial, MixOperation, N
 var inputDown = false;
 var inputX = 0;
 var inputXLast = 0;
+var prestart = true;
 
 /*document.addEventListener(
     "mousedown",
@@ -40,6 +41,10 @@ document.addEventListener(
         if(event.touches.length > 1){
             event.preventDefault();
         }else{
+            if(prestart){
+                resetGame()
+                prestart = false;
+            }
             inputDown = true;
             inputXLast = event.changedTouches[0].clientX;
             if(!alive){
@@ -576,10 +581,14 @@ const scene = new THREE.Scene();
                         particles_brokenPlatform.rotation.y = levelGroup.rotation.y;
                         inputX = 0;
                     }
-                }else{
+                }else if(!prestart){
                     //resetGame();
                     document.getElementById("endScore").innerHTML = "Score: " + score;
                     document.getElementById("restart").innerHTML = "Tap anywhere to restart";
+                }
+
+                if(prestart){
+                    document.getElementById("restart").innerHTML = "Tap to start";
                 }
 
                 

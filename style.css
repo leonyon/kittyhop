@@ -41,7 +41,7 @@
 	display:block;
     color:hsl(64, 100%, 67%);
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 64px;
+    font-size: 48px;
     font-weight: bolder;
     text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
 }
@@ -54,7 +54,7 @@
 	display:block;
     color:hsl(36, 100%, 55%);
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 128px;
+    font-size: 80px;
     font-weight: bolder;
     text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
 }
