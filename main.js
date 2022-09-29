@@ -42,14 +42,14 @@ document.addEventListener(
             event.preventDefault();
         }else{
             if(prestart){
-                resetGame();
-                bgmusic.play();
                 prestart = false;
-            }
-            inputDown = true;
-            inputXLast = event.changedTouches[0].clientX;
-            if(!alive){
-                resetGame();
+                bgmusic.play();
+            }else{
+                inputDown = true;
+                inputXLast = event.changedTouches[0].clientX;
+                if(!alive){
+                    resetGame();
+                }
             }
         }
         
