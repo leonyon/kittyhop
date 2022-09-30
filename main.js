@@ -6,12 +6,22 @@ import { Material, Mesh, MeshBasicMaterial, MeshLambertMaterial, MixOperation, N
 var inputDown = false;
 var inputX = 0;
 var inputXLast = 0;
-var prestart = true;
 
-/*document.addEventListener(
+var prestart = true;
+var loaded = false;
+var objToLoad = 16;
+var objLoaded = 0;
+
+//#region Mouse Controls
+document.addEventListener(
     "mousedown",
     function(event){
-        inputDown = true;
+        if(!prestart){
+            inputDown = true;
+            if(!alive){
+                resetGame();
+            }
+        }
     },
     false
 );
@@ -33,17 +43,21 @@ document.addEventListener(
         inputXLast = event.clientX;
     },
     false
-);*/
+);
+//#endregion
 
 document.getElementById("startbutton").addEventListener("click",preStartGame);
 
 function preStartGame(){
-    prestart = false;
-    console.log("play clicked");
-    document.getElementById("startbutton").style.display = "none";
-    bgmusic.play();
+    if(loaded){
+        prestart = false;
+        console.log("play clicked");
+        document.getElementById("startbutton").style.display = "none";
+        bgmusic.play();
+    }
 }
 
+//#region Touch Controls
 document.addEventListener(
     "touchstart",
     function(event){
@@ -81,7 +95,7 @@ document.addEventListener(
     },
     false
 );
-
+//#endregion
 
 
 const scene = new THREE.Scene();
@@ -106,6 +120,17 @@ const scene = new THREE.Scene();
 
             }
 
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            scene.add(ambientLight);
+
+            const frontLight = new THREE.DirectionalLight(0xdddd33, 1);
+            frontLight.position.set(10, 20, 10);
+            scene.add(frontLight);
+
+            var stats = new Stats();
+            stats.showPanel(0);
+            document.body.appendChild(stats.dom);
+
             //#region audio
             const listener = new THREE.AudioListener();
             camera.add(listener);
@@ -120,90 +145,91 @@ const scene = new THREE.Scene();
                 bgmusic.setBuffer(buffer);
                 bgmusic.setLoop(true);
                 bgmusic.setVolume(0.4);
+                objLoaded++;
             })
             audioLoader.load('./sfx/bounce.wav', function(buffer){
                 sfx_bounce.setBuffer(buffer);
                 sfx_bounce.setLoop(false);
                 sfx_bounce.setVolume(0.6);
+                objLoaded++;
             })
             audioLoader.load('./sfx/advancelevel.wav', function(buffer){
                 sfx_advance.setBuffer(buffer);
                 sfx_advance.setLoop(false);
                 sfx_advance.setVolume(0.6);
+                objLoaded++;
             })
             audioLoader.load('./sfx/score.wav', function(buffer){
                 sfx_score.setBuffer(buffer);
                 sfx_score.setLoop(false);
                 sfx_score.setVolume(0.6);
+                objLoaded++;
             })
             audioLoader.load('./sfx/lose.wav', function(buffer){
                 sfx_lose.setBuffer(buffer);
                 sfx_lose.setLoop(false);
                 sfx_lose.setVolume(0.6);
+                objLoaded++;
             })
             audioLoader.load('./sfx/meow.mp3', function(buffer){
                 sfx_meow.setBuffer(buffer);
                 sfx_meow.setLoop(false);
                 sfx_meow.setVolume(0.6);
+                objLoaded++;
             })
             //#endregion
             
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-            scene.add(ambientLight);
-
-            const frontLight = new THREE.DirectionalLight(0xdddd33, 1);
-            frontLight.position.set(10, 20, 10);
-            scene.add(frontLight);
+            
 
             //#region textures
-            const tex_tree = new THREE.TextureLoader().load("./textures/tree.png");
+            const tex_tree = new THREE.TextureLoader().load("./textures/tree.png", function(){ objLoaded++; });
             tex_tree.wrapS = THREE.RepeatWrapping;
             tex_tree.wrapT = THREE.RepeatWrapping;
             tex_tree.repeat.set(1, 250);
             const mat_tree = new MeshLambertMaterial({ map: tex_tree });
 
-            const tex_metalbeam = new THREE.TextureLoader().load("./textures/metalbeam.png");
+            const tex_metalbeam = new THREE.TextureLoader().load("./textures/metalbeam.png", function(){ objLoaded++; });
             tex_metalbeam.wrapS = THREE.RepeatWrapping;
             tex_metalbeam.wrapT = THREE.RepeatWrapping;
             tex_metalbeam.repeat.set(1, 250);
             const mat_metalbeam = new MeshLambertMaterial({ map: tex_metalbeam });
 
-            const tex_soda = new THREE.TextureLoader().load("./textures/soda.png");
+            const tex_soda = new THREE.TextureLoader().load("./textures/soda.png", function(){ objLoaded++; });
             tex_soda.wrapS = THREE.RepeatWrapping;
             tex_soda.wrapT = THREE.RepeatWrapping;
             tex_soda.repeat.set(3, 250);
             const mat_soda= new MeshLambertMaterial({ map: tex_soda });
 
-            const tex_leaves = new THREE.TextureLoader().load("./textures/leaves.png");
+            const tex_leaves = new THREE.TextureLoader().load("./textures/leaves.png", function(){ objLoaded++; });
             tex_leaves.wrapS = THREE.RepeatWrapping;
             tex_leaves.wrapT = THREE.RepeatWrapping;
             tex_leaves.repeat.set(2, 2);
             const mat_leaves= new MeshLambertMaterial({ map: tex_leaves });
 
-            const tex_metalfloor = new THREE.TextureLoader().load("./textures/metalfloor.png");
+            const tex_metalfloor = new THREE.TextureLoader().load("./textures/metalfloor.png", function(){ objLoaded++; });
             tex_metalfloor.wrapS = THREE.RepeatWrapping;
             tex_metalfloor.wrapT = THREE.RepeatWrapping;
             tex_metalfloor.repeat.set(2, 2);
             const mat_metalfloor= new MeshLambertMaterial({ map: tex_metalfloor });
 
-            const tex_burger = new THREE.TextureLoader().load("./textures/burger.png");
+            const tex_burger = new THREE.TextureLoader().load("./textures/burger.png", function(){ objLoaded++; });
             tex_burger.wrapS = THREE.RepeatWrapping;
             tex_burger.wrapT = THREE.RepeatWrapping;
             tex_burger.repeat.set(2, 2);
             const mat_burger= new MeshLambertMaterial({ map: tex_burger });
 
-            const tex_bg_tree = new THREE.TextureLoader().load("./textures/bg_tree.png");
+            const tex_bg_tree = new THREE.TextureLoader().load("./textures/bg_tree.png", function(){ objLoaded++; });
             tex_bg_tree.wrapS = THREE.ClampToEdgeWrapping
             tex_bg_tree.wrapT = THREE.ClampToEdgeWrapping;
             tex_bg_tree.repeat.set(1, 1);
 
-            const tex_bg_metal = new THREE.TextureLoader().load("./textures/bg_metal.png");
+            const tex_bg_metal = new THREE.TextureLoader().load("./textures/bg_metal.png", function(){ objLoaded++; });
             tex_bg_metal.wrapS = THREE.ClampToEdgeWrapping
             tex_bg_metal.wrapT = THREE.ClampToEdgeWrapping;
             tex_bg_metal.repeat.set(1, 1);
 
-            const tex_bg_burger = new THREE.TextureLoader().load("./textures/bg_burger.png");
+            const tex_bg_burger = new THREE.TextureLoader().load("./textures/bg_burger.png", function(){ objLoaded++; });
             tex_bg_burger.wrapS = THREE.ClampToEdgeWrapping
             tex_bg_burger.wrapT = THREE.ClampToEdgeWrapping;
             tex_bg_burger.repeat.set(1, 1);
@@ -286,7 +312,6 @@ const scene = new THREE.Scene();
                 
                 for(let currentPlatform = 0; currentPlatform < maxPlatforms; currentPlatform++){
                     if(currentPlatform == 0){ createNewPlatform(true); }else{ createNewPlatform(false); }
-                    
                 }
                 scene.add(levelGroup);
 
@@ -317,7 +342,7 @@ const scene = new THREE.Scene();
                             animAction_lose = playerMixer.clipAction(clip_lose);
                             animAction_lose.loop = THREE.LoopOnce;
                             animAction_lose.clampWhenFinished = true;
-                            
+                            objLoaded++;
                         },
                         undefined,
                         function(error){
@@ -330,12 +355,12 @@ const scene = new THREE.Scene();
             startGame();
 
             function resetGame(){
-                platforms.forEach(element => function(element){
+                platforms.forEach(function(element){
                     element.geometry.dispose();
                     element.material.dispose();
                 });
                 platforms = [];
-                dangers.forEach(element => function(element){
+                dangers.forEach(function(element){
                     element.geometry.dispose();
                     element.material.dispose();
                 });
@@ -378,6 +403,7 @@ const scene = new THREE.Scene();
                     levelGroup.children[i].children[0].material = platformMaterial;
                 }
 
+                //level advance particles
                 for(let n = 0; n < 30; n++){
                     let partBrokenPlatformParent = new THREE.Object3D();
                     let geo = new THREE.SphereGeometry(Math.random() * 0.3 + 0.5, 15, 15);
@@ -390,12 +416,14 @@ const scene = new THREE.Scene();
                 
                     partBrokenPlatformParent.rotation.y = -particles_brokenPlatform.rotation.y;
                 } 
+
                 sfx_advance.play();
             }
 
             
             
             function movePlayer(deltaTime){
+                //movement
                 vspeed += deltaTime * 0.1;
                 if(vspeed < 0){
                     animAction_fallfast.stop();
@@ -443,17 +471,18 @@ const scene = new THREE.Scene();
                 if(player.position.y < camera.position.y - 3){
                     camera.position.y -= vspeed;
                 }
+                if(player.position.y < nextLevel){
+                    advanceLevel();
+                    nextLevel -= 100;
+                }
+
+                //collision detection
                 playerRay.near = 0;
                 playerRay.far = 0.1;
                 playerRayPos.y = player.position.y;
                 playerRayPos.y += 0.9;
                 playerRay.set(playerRayPos, downDirection);
                 intersectsPlatforms = playerRay.intersectObjects(platforms);
-
-                if(player.position.y < nextLevel){
-                    advanceLevel();
-                    nextLevel -= 100;
-                }
 
                 for(let i = 0; i < intersectsPlatforms.length; i++){
                     vspeed = -0.05;
@@ -487,12 +516,6 @@ const scene = new THREE.Scene();
                     animAction_lose.play();
                     sfx_lose.play();
                     sfx_meow.play();
-                }
-
-                intersectGoal = playerRay.intersectObject(goal);
-                for(let i = 0; i < intersectGoal.length; i++){
-                    advanceLevel();
-                    break;
                 }
 
                 if(player.position.y < lastScored * platformHeight - 2){
@@ -559,12 +582,6 @@ const scene = new THREE.Scene();
                 
             }
 
-            
-
-            var stats = new Stats();
-            stats.showPanel(0);
-            document.body.appendChild(stats.dom);
-
             function animate(){
                 requestAnimationFrame(animate);
 
@@ -581,27 +598,39 @@ const scene = new THREE.Scene();
                     if(inputDown){
                         levelGroup.rotation.y += inputX * 0.01;
                         middleCylinder.rotation.y = levelGroup.rotation.y;
-                        //middleCylinderBottom.rotation.y = levelGroup.rotation.y;
                         particles_jump.rotation.y = levelGroup.rotation.y;
                         particles_fall.rotation.y = levelGroup.rotation.y;
                         particles_brokenPlatform.rotation.y = levelGroup.rotation.y;
                         inputX = 0;
                     }
                 }else if(!prestart){
-                    //resetGame();
                     document.getElementById("endScore").innerHTML = "Score: " + score;
                     document.getElementById("restart").innerHTML = "Tap anywhere to restart";
+                    
+                }
+
+                if(!loaded){
+                    document.getElementById("restart").innerHTML = "Loading...";
+                    document.getElementById("startbutton").style.display = "none";
+                    if(objLoaded >= objToLoad){
+                        console.log(objLoaded);
+                        loaded = true;
+                        document.getElementById("startbutton").style.display = "block";
+                    }else{
+                        
+                    }
                 }
 
                 
                 updateParticles(deltaTime);
                 
                 renderer.render(scene, camera);
-                //document.getElementById("stats").innerHTML = inputDown + "<br>" + inputX + "<br>" + inputXLast;
                 document.getElementById("score").innerHTML = score;
                 stats.update();
             }
             animate();
+            
+            
 
             function updateParticles(deltaTime){
                 deltaTime *= 0.01;
